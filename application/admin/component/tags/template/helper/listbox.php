@@ -24,12 +24,49 @@ class TagsTemplateHelperListbox extends Library\TemplateHelperListbox
     		'model'  => 'tags',
     		'value'	 => 'id',
     		'label'	 => 'title',
-            'prompt' => false
+            'prompt' => false,
+            'creatable' => false,
+            'selected' => array(),
+            'filter' => array()
         ));
         
         $config->label = 'title';
 		$config->sort  = 'title';
-    
-    	return parent::_render($config);
+
+        if($config->creatable)
+        {
+	        return $this->_renderCreateableTags($config);
+        } else {
+            return parent::_render($config);
+        }
+    }
+
+    /**
+    +	 * Renders the creatable tags input & js
+    +	 *
+    +	 * @param Library\ObjectConfig $config
+    +	 * @return string
+    +	 */
+	protected function _renderCreateableTags(Library\ObjectConfig $config)
+	{
+		$tags = $this->getObject('com:tags.model.tags')->setState(Library\ObjectConfig::unbox($config->filter))->getRowset();
+
+		$data = array();
+		foreach($tags AS $tag){
+			$data[] = array('id' => $tag->id, 'text' => $tag->title);
+		}
+
+		$attribs = $this->buildAttributes($config->attribs);
+
+		return '<input type="text" name="'.$config->name.'" '.$attribs.' value="'.implode(',', Library\ObjectConfig::unbox($config->selected)).'" />
+		<script data-inline>
+            ;(function($){
+	            $(".select-tags").select2({
+		            createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
+		            multiple: true,
+		            data: '.json_encode($data).'
+	            });
+            })($jQuery)
+        </script>';
     }
 }

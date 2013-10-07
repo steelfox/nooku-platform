@@ -47,7 +47,7 @@
             <? if($article->isTaggable()) : ?>
                 <fieldset>
                     <legend><?= translate('Tags') ?></legend>
-                    <?= helper('com:tags.listbox.tags', array('name' => 'tags[]', 'selected' => $article->getTags()->tags_tag_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-tags', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
+                    <?= helper('com:tags.listbox.tags', array('name' => 'tags', 'selected' => $article->getTags()->tags_tag_id, 'filter' => array('table' => 'articles'), 'creatable' => true, 'attribs' => array('class' => 'select-tags', 'style' => 'width:100%'))) ?>
                 </fieldset>
             <? endif ?>
         </div>

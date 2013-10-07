@@ -53,5 +53,3 @@
         <?= import('default_sidebar.html'); ?>
     </div>
 </form>
-
-<script data-inline> $jQuery(".select-tags").select2(); </script>

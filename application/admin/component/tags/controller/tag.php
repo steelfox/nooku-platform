@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Component\Tags
  */
-abstract class TagsControllerTag extends Library\ControllerModel
+class TagsControllerTag extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {

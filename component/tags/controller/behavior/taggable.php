@@ -27,7 +27,8 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
         
         $row   = $context->result;
         $table = $row->getTable()->getBase();
-        
+        $tags = explode(',',trim($row->tags));
+
         // Remove all existing relations
         if($row->id && $row->getTable()->getBase())
         {
@@ -39,20 +40,31 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
             $rows->delete();
         }
 
-        if($row->tags)
+        // Save tags
+        foreach ($tags as $tag)
         {
-            // Save tags as relations
-		    foreach ($row->tags as $tag)
+            // Check if we're adding a new tag
+            if(!is_numeric($tag) && !empty($tag))
             {
-			    $relation = $this->getObject('com:tags.database.row.relation');
+                $tag = $this->getObject('com:tags.controller.tag')->add(array(
+                    'table' => $table,
+                    'title' => $tag
+                ))->id;
+            }
+
+            // Make sure the tag exist before saving the relation
+            if($this->getObject('com:tags.database.row.tag')->set('id', $tag)->load())
+            {
+                $relation = $this->getObject('com:tags.database.row.relation');
                 $relation->tags_tag_id = $tag;
                 $relation->row		  = $row->id;
                 $relation->table      = $table;
-    
-                if(!$relation->load()) {
+
+                if(!$relation->load())
+                {
                     $relation->save();
                 }
-		    }
+            }
         }
 		
 		return true;
