@@ -8,7 +8,7 @@
  */
 ?>
 
-<? if(parameters()->type['name'] == 'component') : ?>
+<? if(parameters()->type == 'component') : ?>
 
 <?= $page->getParams('url')->render('urlparams') ?>
 
@@ -19,7 +19,7 @@
 <?= $page->getParams('page')->render('params'); ?>
 <? endif ?>
 
-<? if(parameters()->type['name'] == 'redirect') : ?>
+<? if(parameters()->type == 'redirect') : ?>
     <div id="page-link-type">
         <label for="parent"><?= translate('Type') ?></label>
         <div id="parent" class="controls">
@@ -48,7 +48,7 @@
     </div>
 <? endif ?>
 
-<? if(parameters()->type['name'] == 'pagelink') : ?>
+<? if(parameters()->type == 'pagelink') : ?>
     <div>
         <label for="parent"><?= translate('Page') ?></label>
         <div id="parent" class="controls">
