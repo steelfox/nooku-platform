@@ -67,6 +67,26 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         return $link;
     }
 
+    public function getView()
+    {
+        $view = '';
+        if(isset($query['view'])) {
+            $view = $this->getLink()->query['view'];
+        }
+
+        return $view;
+    }
+
+    public function getLayout()
+    {
+        $layout = '';
+        if(isset($query['layout'])) {
+            $layout = $this->getLink()->query['layout'];
+        }
+
+        return $layout;
+    }
+
     public function getParams($group)
     {
         return $this->{'_get' . ucfirst($group) . 'Params'}();
