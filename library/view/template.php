@@ -145,7 +145,8 @@ abstract class ViewTemplate extends ViewAbstract
                 $context->parameters = $model->getState()->getValues();
                 $context->parameters->total = $model->count();
             }
-            else {
+            else
+            {
                 $context->parameters = $entity->getProperties();
                 $context->parameters->total = 1;
             }
